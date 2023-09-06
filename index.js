@@ -41,11 +41,11 @@ app.post('/', async (req, res) => {
     // await execute(number, message);
     await queue.push(async () => {
         console.log('Task 1 started');
+        res.json({ message: 'Received JSON data:', data: requestData });
         await execute(number, message);;
         console.log('Task 1 finished');
     });
 
-    res.json({ message: 'Received JSON data:', data: requestData });
 });
 
 // Start the server
