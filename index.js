@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.post('/', (req, res) => {
   const requestData = req.body;
 
-  const command = 'sh /home/garrett/sms.sh "+18043991576" "helloagain"';
+  const command = 'sh /home/garrett/sms/sms.sh "+18043991576" "helloagain"';
 // Execute the command
 exec(command, (error, stdout, stderr) => {
   if (error) {
