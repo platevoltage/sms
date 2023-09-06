@@ -13,7 +13,7 @@ app.post('/', (req, res) => {
   const requestData = req.body;
   const {number, message} = requestData;
 
-  const command = `sh /home/garrett/sms/sms.sh ${number} ${message}`;
+  const command = `sh /home/garrett/sms/sms.sh ${number} ${message.replace(" ", "\\ ")}`;
 // Execute the command
 exec(command, (error, stdout, stderr) => {
   if (error) {
