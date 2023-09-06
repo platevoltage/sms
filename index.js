@@ -40,11 +40,17 @@ app.post('/', (req, res) => {
 
     // await execute(number, message);
     queue.push(async () => {
-        console.log('Task 1 started');
-        await execute(number, message.replace(/ /g, '\\ '));
-        res.json({ message: 'Received JSON data:', data: requestData });
-        await new Promise((resolve, reject) => {setTimeout(resolve, 500)});
-        console.log('Task 1 finished');
+        try {
+
+            console.log('Task 1 started');
+            await execute(number, message.replace(/ /g, '\\ '));
+            res.json({ message: 'Received JSON data:', data: requestData });
+            await new Promise((resolve, reject) => {setTimeout(resolve, 500)});
+            console.log('Task 1 finished');
+        } catch (error) {
+            res.json({ message: 'ERROR', data: requestData });
+            console.error(error);
+        }
     });
 
 });
