@@ -36,14 +36,14 @@ async function execute(number, message) {
 app.post('/', (req, res) => {
     const requestData = req.body;
     const {number, message} = requestData;
-    console.log(message.replace(" ", "\\ "))
+    // console.log(message.replace(" ", "\\ "))
 
     // await execute(number, message);
     res.json({ message: 'Received JSON data:', data: requestData });
     queue.push(async () => {
         console.log('Task 1 started');
         await execute(number, message.replace(/ /g, '\\ '));
-        await new Promise((resolve, reject) => {setTimeout(resolve, 5000)});
+        await new Promise((resolve, reject) => {setTimeout(resolve, 1000)});
         console.log('Task 1 finished');
     });
 
