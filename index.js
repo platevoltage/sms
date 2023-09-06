@@ -42,7 +42,8 @@ app.post('/', (req, res) => {
     res.json({ message: 'Received JSON data:', data: requestData });
     queue.push(async () => {
         console.log('Task 1 started');
-        await execute(number, message);;
+        await execute(number, message);
+        await new Promise((resolve, reject) => {setTimeout(resolve, 5000)});
         console.log('Task 1 finished');
     });
 
