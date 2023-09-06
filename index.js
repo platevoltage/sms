@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const { exec } = require('child_process');
 
 const app = express();
-const port = 8000;
+const port = 3000;
 
 // Middleware to parse JSON request bodies
 app.use(bodyParser.json());
@@ -13,7 +13,8 @@ app.post('/', (req, res) => {
   const requestData = req.body;
 
   const command = 'sh /home/garrett/sms.sh "+18043991576" "helloagain"';
-
+// Execute the command
+exec(command, (error, stdout, stderr) => {
   if (error) {
     console.error(`Error: ${error.message}`);
     return;
