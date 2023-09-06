@@ -43,7 +43,7 @@ app.post('/', (req, res) => {
     queue.push(async () => {
         console.log('Task 1 started');
         await execute(number, message.replace(/ /g, '\\ '));
-        await new Promise((resolve, reject) => {setTimeout(resolve, 1000)});
+        await new Promise((resolve, reject) => {setTimeout(resolve, 500)});
         console.log('Task 1 finished');
     });
 
