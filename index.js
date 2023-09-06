@@ -18,13 +18,14 @@ async function execute(number, message) {
                 console.error(`Error: ${error.message}`);
                 reject();
             }
-
+            
             if (stderr) {
                 console.error(`Stderr: ${stderr}`);
-                resolve();
+                reject();
             }
-
-        console.log(`Command output:\n${stdout}`);
+            
+            console.log(`Command output:\n${stdout}`);
+            resolve();
         });
     });
 }
