@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 async function execute(number, message) {
     return new Promise((resolve, reject) => {
-        const command = `sh /home/garrett/sms/sms.sh ${number} "${message.replaceAll(" ", "\\ ")}"`;
+        const command = `sh /home/garrett/sms/sms.sh ${number} "${message}"`;
         // Execute the command
         exec(command, (error, stdout, stderr) => {
             if (error) {
@@ -42,7 +42,7 @@ app.post('/', (req, res) => {
     res.json({ message: 'Received JSON data:', data: requestData });
     queue.push(async () => {
         console.log('Task 1 started');
-        await execute(number, message);
+        await execute(number, message.replace(/ /g, '\\ '));
         await new Promise((resolve, reject) => {setTimeout(resolve, 5000)});
         console.log('Task 1 finished');
     });
