@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 async function execute(number, message) {
     return new Promise((resolve, reject) => {
-        const command = `sh /home/garrett/sms/sms.sh ${number} "${message.replace(" ", "\\ ")}"`;
+        const command = `sh /home/garrett/sms/sms.sh ${number} "${message.replaceAll(" ", "\\ ")}"`;
         // Execute the command
         exec(command, (error, stdout, stderr) => {
             if (error) {
@@ -109,8 +109,7 @@ class PromiseQueue {
     });
   }
   
-  example();
-  
+
   // Later, you can push more promises to the queue:
   // await queue.push(async () => { /* your promise function */ });
   
