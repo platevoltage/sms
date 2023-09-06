@@ -11,8 +11,9 @@ app.use(bodyParser.json());
 // POST endpoint to accept JSON data
 app.post('/', (req, res) => {
   const requestData = req.body;
+  const {number, message} = requestData;
 
-  const command = 'sh /home/garrett/sms/sms.sh "+18043991576" "helloagain"';
+  const command = `sh /home/garrett/sms/sms.sh ${number} ${message}`;
 // Execute the command
 exec(command, (error, stdout, stderr) => {
   if (error) {
