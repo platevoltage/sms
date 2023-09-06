@@ -39,10 +39,10 @@ app.post('/', (req, res) => {
     // console.log(message.replace(" ", "\\ "))
 
     // await execute(number, message);
-    res.json({ message: 'Received JSON data:', data: requestData });
     queue.push(async () => {
         console.log('Task 1 started');
         await execute(number, message.replace(/ /g, '\\ '));
+        res.json({ message: 'Received JSON data:', data: requestData });
         await new Promise((resolve, reject) => {setTimeout(resolve, 500)});
         console.log('Task 1 finished');
     });
@@ -92,25 +92,5 @@ class PromiseQueue {
   // Example usage:
   const queue = new PromiseQueue();
   
-  function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-  
-  async function example() {
-    await queue.push(async () => {
-      console.log('Task 1 started');
-      await delay(1000);
-      console.log('Task 1 finished');
-    });
-  
-    await queue.push(async () => {
-      console.log('Task 2 started');
-      await delay(2000);
-      console.log('Task 2 finished');
-    });
-  }
   
 
-  // Later, you can push more promises to the queue:
-  // await queue.push(async () => { /* your promise function */ });
-  
