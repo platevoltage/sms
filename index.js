@@ -12,9 +12,9 @@ app.use(bodyParser.json());
 app.post('/', (req, res) => {
   const requestData = req.body;
   const {number, message} = requestData;
-  console.log(message)
+  console.log(message.replace(" ", "\\ "))
 
-  const command = `sh /home/garrett/sms/sms.sh ${number} ${message.replace(" ", "\\ ")}`;
+  const command = `sh /home/garrett/sms/sms.sh ${number} "${message.replace(" ", "\\ ")}"`;
 // Execute the command
 exec(command, (error, stdout, stderr) => {
   if (error) {
