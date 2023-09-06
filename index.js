@@ -9,6 +9,7 @@ const port = 3000;
 app.use(bodyParser.json());
 
 
+
 async function execute(number, message) {
     return new Promise((resolve, reject) => {
         const command = `sh /home/garrett/sms/sms.sh ${number} "${message.replace(" ", "\\ ")}"`;
@@ -37,7 +38,12 @@ app.post('/', async (req, res) => {
     const {number, message} = requestData;
     console.log(message.replace(" ", "\\ "))
 
-    await execute(number, message)
+    // await execute(number, message);
+    await queue.push(async () => {
+        console.log('Task 1 started');
+        await execute(number, message);;
+        console.log('Task 1 finished');
+    });
 
     res.json({ message: 'Received JSON data:', data: requestData });
 });
@@ -46,3 +52,65 @@ app.post('/', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+
+
+
+class PromiseQueue {
+    constructor() {
+      this.queue = [];
+      this.isProcessing = false;
+    }
+  
+    async push(promiseFunction) {
+      this.queue.push(promiseFunction);
+      if (!this.isProcessing) {
+        await this.processQueue();
+      }
+    }
+  
+    async processQueue() {
+      if (this.queue.length === 0) {
+        this.isProcessing = false;
+        return;
+      }
+  
+      this.isProcessing = true;
+      const nextPromiseFunction = this.queue.shift();
+      
+      try {
+        await nextPromiseFunction();
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+  
+      await this.processQueue();
+    }
+  }
+  
+  // Example usage:
+  const queue = new PromiseQueue();
+  
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  
+  async function example() {
+    await queue.push(async () => {
+      console.log('Task 1 started');
+      await delay(1000);
+      console.log('Task 1 finished');
+    });
+  
+    await queue.push(async () => {
+      console.log('Task 2 started');
+      await delay(2000);
+      console.log('Task 2 finished');
+    });
+  }
+  
+  example();
+  
+  // Later, you can push more promises to the queue:
+  // await queue.push(async () => { /* your promise function */ });
+  
