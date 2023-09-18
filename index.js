@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 async function execute(number, message) {
     return new Promise((resolve, reject) => {
-        const command = `sh /home/garrett/sms/sms.sh ${number} "${message}"`;
+        const command = `sh /home/garrett/Public/sms/sms.sh ${number} "${message}"`;
         // Execute the command
         exec(command, (error, stdout, stderr) => {
             if (error) {
